@@ -26,16 +26,18 @@
                             <thead>
                                 <tr>
                                 <th><span>Name</span></th>
-                                <th><span>performedAt</span></th>
                                 <th><span>Value</span></th>
+                                <th><span>Type</span></th>
+                                <th><span>performedAt</span></th>
                                 <th><span>Action</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                               <tr *ngFor="let record of records">
                                 <td>{{record?.name}}</td>
-                                <td>{{record?.performedAt}}</td>
                                 <td>{{record?.value}}</td>
+                                <td>{{record?.recordType}}</td>
+                                <td>{{record?.performedAt}}</td>
                                 <td>
                                   <a (click)="onOpenModal('edit', record)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit">
                                     <i class="fa fa-pencil"></i>
@@ -111,6 +113,10 @@
             <div class="form-group">
               <label for="name">Value</label>
               <input type="number" ngModel="{{editRecord?.value}}" name="value" class="form-control" id="value" placeholder="0.0" required>
+            </div>
+            <div class="form-group">
+              <label for="name">Type</label>
+              <input type="text" ngModel="{{editRecord?.recordType}}" name="recordType" class="form-control" id="recordType" placeholder="expense" required>
             </div>
             <div class="form-group">
               <label for="performedAt">Performed at</label>

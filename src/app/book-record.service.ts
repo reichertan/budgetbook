@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BookRecord } from './book-record';
 import { environment } from 'src/environments/environment';
@@ -10,8 +10,8 @@ export class BookRecordService {
 
   constructor(private http: HttpClient) { }
 
-  public getRecords(): Observable<BookRecord[]> {
-    return this.http.get<BookRecord[]>(`${this.apiServerUrl}/records`);
+  public getRecords(params: HttpParams): Observable<BookRecord[]> {
+    return this.http.get<BookRecord[]>(`${this.apiServerUrl}/records`, {params: params});
   }
 
   public createRecord(record: BookRecord): Observable<BookRecord> {
