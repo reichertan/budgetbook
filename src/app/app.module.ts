@@ -6,6 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookRecordService } from './book-record.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { HammerModule } from '@angular/platform-browser';
+import { 
+  IgxCalendarModule,
+  IgxAccordionModule } from 'igniteui-angular';
 
 @NgModule({
   declarations: [
@@ -15,9 +21,14 @@ import { BookRecordService } from './book-record.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    HammerModule,
+    IgxCalendarModule,
+    IgxAccordionModule
   ],
   providers: [BookRecordService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

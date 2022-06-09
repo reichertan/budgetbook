@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BookRecord } from './book-record';
 import { BookRecordService } from './book-record.service';
+import { IgxMonthPickerComponent } from 'igniteui-angular';
 
 @Component({
   selector: 'app-root',
@@ -13,20 +14,23 @@ export class AppComponent implements OnInit{
   public records: BookRecord[] | undefined;
   public editRecord: BookRecord | undefined;
   public deleteRecord: BookRecord | undefined;
-  today : Date = new Date();
-  firstDayOfMonth : Date = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
-  lastDayOfMonth : Date = new Date(this.today.getFullYear(), this.today.getMonth() + 1, 0);
+  public date : Date;
 
-  constructor(private recordService: BookRecordService) {}
-
-  ngOnInit(): void {
-    this.getRecords(this.firstDayOfMonth, this.lastDayOfMonth);
+  constructor(private recordService: BookRecordService) {
+    this.date = new Date();
   }
 
-  public getRecords(startDate: Date, endDate: Date): void {
+  ngOnInit(): void {
+    this.getRecords();
+  }
+
+  public getRecords(): void {
+    console.log(this.date);
+    const firstDayOfMonth: Date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+    const lastDayOfMonth: Date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
     let params = new HttpParams()
-      .append('start-date', startDate.toISOString())
-      .append('end-date', endDate.toISOString());
+      .append('start-date', firstDayOfMonth.toISOString())
+      .append('end-date', lastDayOfMonth.toISOString());
     this.recordService.getRecords(params).subscribe({
       next: (response: BookRecord[]) => {
         this.records = response;
@@ -42,7 +46,7 @@ export class AppComponent implements OnInit{
     this.recordService.createRecord(addForm.value).subscribe(
       (response: BookRecord) => {
         console.log(response);
-        this.getRecords(this.firstDayOfMonth, this.lastDayOfMonth);
+        this.getRecords();
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
@@ -56,7 +60,7 @@ export class AppComponent implements OnInit{
     this.recordService.updateRecord(record.id, record).subscribe(
       (response: BookRecord) => {
         console.log(response);
-        this.getRecords(this.firstDayOfMonth, this.lastDayOfMonth);
+        this.getRecords();
       },
       (error: HttpErrorResponse) => {
         alert(error.message)
@@ -68,7 +72,7 @@ export class AppComponent implements OnInit{
     this.recordService.deleteRecord(recordId).subscribe(
       (response: void) => {
         console.log(response);
-        this.getRecords(this.firstDayOfMonth, this.lastDayOfMonth);
+        this.getRecords();
       },
       (error: HttpErrorResponse) => {
         alert(error.message)
@@ -85,7 +89,7 @@ export class AppComponent implements OnInit{
     }
     this.records = results;
     if (results.length === 0 || !key) {
-      this.getRecords(this.firstDayOfMonth, this.lastDayOfMonth);
+      this.getRecords();
     }
   }
 
